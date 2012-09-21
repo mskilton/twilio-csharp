@@ -61,7 +61,8 @@ namespace Twilio
 		/// <param name="friendlyName">A human readable description for the new caller ID with maximum length 64 characters. Defaults to a nicely formatted version of the number.</param>
 		/// <param name="callDelay">The number of seconds, between 0 and 60, to delay before initiating the validation call. Defaults to 0.</param>
 		/// <param name="extension">Digits to dial after connecting the validation call.</param>
-		public ValidationRequestResult AddOutgoingCallerId(string phoneNumber, string friendlyName, int? callDelay, string extension)
+        /// 
+		public ValidationRequestResult AddOutgoingCallerId(string phoneNumber, string friendlyName, int? callDelay, string extension, string CallBackUrl)
 		{
 			Require.Argument("PhoneNumber", phoneNumber);
 			if (callDelay.HasValue) Validate.IsBetween(callDelay.Value, 0, 60);
@@ -73,6 +74,7 @@ namespace Twilio
 			if (friendlyName.HasValue()) request.AddParameter("FriendlyName", friendlyName);
 			if (callDelay.HasValue) request.AddParameter("CallDelay", callDelay.Value);
 			if (extension.HasValue()) request.AddParameter("Extension", extension);
+            if (CallBackUrl.HasValue()) request.AddParameter("StatusCallback", CallBackUrl);
 
 			return Execute<ValidationRequestResult>(request);
 		}
